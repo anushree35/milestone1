@@ -1,91 +1,192 @@
-Here’s a clean way to split Milestone 1 so both people have real ownership, minimal merge pain, and you still hit every requirement in the PDF. 
+Ownership split (who codes what)
+Anushree owns: core system
 
-## Split by “modules” (best for avoiding conflicts)
+Files Anushree edits:
 
-### Anushree: **Course + University (core manager)**
+course.py
 
-Owns:
+university.py
 
-* `Course` class
+(optional) loader.py part for courses
 
-  * fields: `course_code`, `credits`, `students` list
-  * methods: `add_student()`, `get_student_count()` 
-* `University` class
+tests/test_course_university.py (or separate test files)
 
-  * fields: `students` dict, `courses` dict
-  * methods: `add_course()`, `add_student()`, `get_student()`, `get_course()`,
-    `get_course_enrollment()`, `get_students_in_course()` 
-* Validation helpers that logically belong to “system-level rules”
+What Anushree needs to implement
 
-  * reject invalid IDs / empty names, prevent duplicates, safe lookups 
+Course
 
-Deliverables Person A writes:
+Fields:
 
-* `course.py` (Course)
-* `university.py` (University)
-* Unit tests for Course + University test cases listed 
+course_code (string)
 
----
+credits (int)
 
-### Prudhvi: **Student + GPA + stats**
+students (list of Student objects)
 
-Owns:
+Methods:
 
-* `Student` class
+add_student(student)
 
-  * fields: `student_id`, `name`, `courses` dict mapping `Course -> grade`
-  * methods: `enroll()`, `update_grade()`, `calculate_gpa()`, `get_courses()`, `get_course_info()` 
-* Grade validation + grade-point mapping (GPA logic must be weighted by credits) 
-* “Stats” functions for:
+must prevent duplicates
 
-  * mean/median/mode for a course (based on grades or GPA-equivalent per course, depending on how your TA expects it)
-  * mean/median of all student GPAs 
+best method: compare by student.student_id
 
-Deliverables Person B writes:
+get_student_count() → int
 
-* `student.py` (Student)
-* `stats.py` (course + university stats helper functions)
-* Unit tests for Student test cases listed 
+University
 
----
+Fields:
 
-## Shared (pair-program or assign “driver”)
+students dict: student_id -> Student
 
-### CSV loading + demo script
+courses dict: course_code -> Course
 
-The PDF requires loading both CSVs into a `University` object and supporting specific queries. 
+Methods:
 
-A good split:
+add_course(course_code, credits)
 
-* Person A writes: `load_course_catalog(csv_path, university)` (creates courses)
-* Person B writes: `load_students(csv_path, university)` (creates students + enrollments)
-* Then you merge into `main.py` that demonstrates required queries.
+prevent duplicate courses
 
----
+add_student(student_id, name)
 
-## File structure (simple and Gradescope-friendly)
+prevent duplicate students
 
-* `course.py`
-* `student.py`
-* `university.py`
-* `stats.py`
-* `loader.py`
-* `main.py` (runs the demo queries)
-* `test_project.py` (all tests in one place is fine)
-* `README.md`
+get_course(course_code) (safe lookup, error if missing)
 
----
+get_student(student_id) (safe lookup, error if missing)
 
-## Super important “handshake rules” to agree on early
+get_course_enrollment(course_code) → number of students
 
-To prevent bugs where enrollments don’t match both sides:
+get_students_in_course(course_code) → list of Student
 
-* `Student.enroll(course, grade)` should also call `course.add_student(self)` (so both objects reflect the relationship). 
-* Decide whether `Course.students` prevents duplicates by:
+Validation rules (Anushree owns these)
 
-  * checking `if student not in self.students`, or
-  * checking by `student.student_id` (more reliable)
+reject empty student names
 
----
+reject empty/invalid IDs
 
-If you want, paste your current repo/file layout (or just what files you already created), and I’ll map this split onto exactly what you have so you don’t redo work.
+prevent duplicates
+
+handle “course not found” / “student not found” cleanly
+
+Prudhvi owns: student + GPA + stats
+
+Files Prudhvi edits:
+
+student.py
+
+stats.py
+
+(optional) loader.py part for students/enrollments
+
+tests/test_student_stats.py (or separate test files)
+
+What Prudhvi needs to implement
+
+Student
+
+Fields:
+
+student_id
+
+name
+
+courses mapping
+Recommend: course_code -> grade (grade can be None if not set yet)
+
+Methods:
+
+enroll(course, grade=None)
+
+must set student’s record
+
+must also call course.add_student(self) (handshake rule)
+
+update_grade(course, grade)
+
+validate grade is allowed
+
+error if student not enrolled
+
+calculate_gpa(course_lookup)
+
+weighted by credits
+
+ignore None grades
+
+Optional helpers (only if required by PDF):
+
+get_courses()
+
+get_course_info()
+
+stats.py
+
+mean, median, mode
+
+stats for:
+
+a single course’s grades
+
+all student GPAs (mean/median)
+
+(Exactly which stats you need depends on what the milestone PDF asks, but this is the usual set.)
+
+Shared / integration work (do last, one person edits at a time)
+loader.py (if required)
+
+Split responsibilities but avoid both editing the same file at once.
+
+Anushree writes: load_course_catalog(csv_path, uni)
+
+Prudhvi writes: load_students(csv_path, uni)
+
+main.py
+
+Only for:
+
+creating University()
+
+calling loaders
+
+running the required queries and printing results
+
+Best move: pick one person to own main.py to avoid conflicts.
+
+Big warning since you’re not using branches
+
+Because you’re on main, you cannot both edit the same file at the same time. If you do, one person will overwrite the other or you’ll get merge conflicts.
+
+Simple rule that prevents 99% of problems:
+
+Anushree edits only course.py, university.py (and maybe a course loader)
+
+Prudhvi edits only student.py, stats.py (and maybe a student loader)
+
+Only one person edits main.py / loader.py at any given time
+
+Before pushing changes:
+
+refresh the GitHub page (web editor) or git pull (local)
+
+then commit + push
+
+Minimal checklist to finish Milestone 1
+
+Anushree finishes Course + University
+
+Prudhvi finishes Student + GPA + stats
+
+Agree on the “handshake” behavior:
+
+Student.enroll() always calls Course.add_student()
+
+Course.add_student() blocks duplicates by student_id
+
+Add loader.py if CSV loading is required
+
+Make main.py demonstrate required queries
+
+Write tests for each file owner’s code
+
+Run tests once at the end (pytest or whatever you’re using)
