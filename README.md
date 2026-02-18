@@ -2,7 +2,7 @@ Here’s a clean way to split Milestone 1 so both people have real ownership, mi
 
 ## Split by “modules” (best for avoiding conflicts)
 
-### Person A: **Course + University (core manager)**
+### Anushree: **Course + University (core manager)**
 
 Owns:
 
@@ -27,7 +27,7 @@ Deliverables Person A writes:
 
 ---
 
-### Person B: **Student + GPA + stats**
+### Prudhvi: **Student + GPA + stats**
 
 Owns:
 
