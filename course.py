@@ -5,11 +5,10 @@ class Course:
       self.students = []
 
   def add_student(self, student) -> None:
-
-  for s in self.students:
-    if getattr(s, "student_id", None) == getattr(student, "student_id", None):
+      for s in self.students:
+          if getattr(s, "student_id", None) == getattr(student, "student_id", None):
                 return
-        self.students.append(student)
+      self.students.append(student)
 
-    def get_student_count(self) -> int:
-        return len(self.students)
+  def get_student_count(self) -> int:
+      return len(self.students)
