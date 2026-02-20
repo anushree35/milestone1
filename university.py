@@ -17,10 +17,10 @@ class University:
       return self.students[student_id]
 
   def  get_student(self, student_id) -> None:
-      return self.students(student_id)
+      return self.students.get(student_id)
 
   def  get_course(self, course_code) -> None:
-      return self.courses(course_code)
+      return self.courses.get(course_code)
 
   def get_course_enrollment(self, course_code):
     return self.get_course(course_code).get_student_count()
