@@ -1,3 +1,6 @@
+from course import Course
+from student import Student
+
 class University:
   def __init__(self):
               self.students = {}
