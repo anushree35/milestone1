@@ -6,19 +6,17 @@ class Student:
         'D' : 1.0,
         'F' : 0.0
     }
-
-    def __init__(self,student_id, name):
+    def __init__(self, student_id, name):
         self.student_id = student_id
         self.name = name
         self.courses = {}
 
     def enroll(self, course, grade):
         if grade not in Student.GRADE_POINTS:
-            raise ValueError(f"Invalid grade '{grade}' for course {course.code}")
+            raise ValueError(f"Invalid grade '{grade}' for course {course.course_code}")
         self.courses[course] = grade
+        course.add_student(self)
 
-        if hasattr(course, 'enroll'):
-            course.enroll(self)
     def update_grade(self, course, grade):
         if course in self.courses:
             self.courses[course] = grade
@@ -26,26 +24,20 @@ class Student:
     def calculate_gpa(self):
         total_points = 0
         total_credits = 0
-
         for course, grade in self.courses.items():
             credits = course.credits
             grade_points = Student.GRADE_POINTS.get(grade, 0)
-       
             total_points += grade_points * credits
             total_credits += credits
-
         if total_credits == 0:
             return 0.0
-    
         return total_points / total_credits
 
     def get_courses(self):
         return list(self.courses.keys())
 
-    def get_course_info(self): 
+    def get_course_info(self):
         info = []
         for course, grade in self.courses.items():
-            info.append({"course_code": course.code, "credits": course.credits, "grade": grade})
+            info.append({"course_code": course.course_code, "credits": course.credits, "grade": grade})
         return info
-
-    
