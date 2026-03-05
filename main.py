@@ -38,7 +38,7 @@ def main():
     print(f"  Mean GPA: {round(mean(gpas), 2)}")
     print(f"  Median GPA: {round(median(gpas), 2)}")
 
-    # students in both CSE2050 and CSE1010
+    # students in both CSE2050 and CSE1010 classes
     set1 = set(s.student_id for s in uni.get_students_in_course("CSE2050"))
     set2 = set(s.student_id for s in uni.get_students_in_course("CSE1010"))
     common = set1 & set2
