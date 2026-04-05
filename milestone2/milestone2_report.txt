@@ -1,0 +1,82 @@
+Milestone 2 Complexity Report
+CSE 2050 -- Spring 2026
+==============================
+
+1. LinkedQueue: enqueue and dequeue complexity
+----------------------------------------------
+Both enqueue and dequeue are O(1).
+
+enqueue: We always insert at the tail, which is a direct pointer reference.
+No traversal is needed -- just set tail.next = new_node and advance tail.
+
+dequeue: We always remove from the head, again a direct pointer operation.
+We simply advance head to head.next and return the old head's data.
+No traversal is needed here either.
+
+Size tracking (len) is also O(1) because we maintain a _size counter that
+is incremented on enqueue and decremented on dequeue.
+
+
+2. Sorting algorithm complexities
+-----------------------------------
+Insertion Sort:
+  - Best case:  O(n)   -- when the list is already sorted, the inner
+                           while loop never executes.
+  - Average / Worst case: O(n^2) -- each element may need to shift past
+                           all previously sorted elements.
+  - Space: O(1) in-place.
+
+Selection Sort:
+  - Best / Average / Worst case: O(n^2) -- the inner loop always scans the
+                           entire remaining unsorted portion to find the
+                           minimum, regardless of the current order.
+  - Space: O(1) in-place.
+  - Note: Selection sort makes at most n-1 swaps (one per outer iteration),
+    whereas insertion sort can make up to O(n^2) writes in the worst case.
+
+
+3. Recursive binary search complexity
+---------------------------------------
+Time complexity: O(log n).
+
+At each recursive call we eliminate half of the remaining search space by
+comparing the target ID to the middle element. The recursion depth is at
+most log2(n) levels. Each level does O(1) work (one comparison, index
+arithmetic, one recursive call), giving O(log n) overall.
+
+Why sorting is required for correctness:
+Binary search relies on the sorted order invariant. After comparing the
+target to the middle element, we conclude either "it must be in the left
+half" or "it must be in the right half." This conclusion is only valid when
+the list is sorted. On an unsorted list the algorithm would discard portions
+of the list that may actually contain the target, producing incorrect results
+(returning -1 for a value that exists, or the wrong index). That is why
+drop() always ensures the roster is sorted by 'id' before invoking binary
+search.
+
+
+4. Comparison of insertion sort vs. selection sort
+----------------------------------------------------
+Both algorithms are O(n^2) in the average and worst cases, so for large
+rosters they perform similarly in terms of comparisons.
+
+The key practical difference is write operations:
+  - Insertion sort shifts elements one position at a time as it inserts,
+    leading to O(n^2) writes in the worst case.
+  - Selection sort performs exactly one swap per outer iteration, so it
+    makes at most n-1 swaps total, regardless of input order.
+
+When to prefer insertion sort:
+  Use insertion sort when the roster is expected to be mostly sorted already
+  (e.g., after a single new enrollment is appended to an otherwise sorted
+  list). Its O(n) best case makes it much faster in that scenario.
+
+When to prefer selection sort:
+  Use selection sort when the cost of writing/swapping is high relative to
+  comparing -- for example, if enrollment records were stored on disk or in
+  a structure where swapping is expensive. The guaranteed O(n) swaps is an
+  advantage in those cases, even though comparisons remain O(n^2).
+
+For this project's in-memory Python lists, the difference is negligible for
+small course rosters (<=40 students). Insertion sort is the default because
+of its best-case advantage on nearly-sorted data.
