@@ -49,7 +49,7 @@ python3 -m unittest test_milestone2 -v
 
 ---
 
-## Data Files (provided, do not modify)
+## Data Files (provided, don't need to modify)
 - `course_catalog_CSE10_with_capacity.csv` -- 10 CSE courses with capacity
 - `enrollments_CSE10.csv` -- enrollment records for those courses
 
