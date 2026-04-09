@@ -29,6 +29,11 @@ class LinkedQueue:
         self._size -= 1
         return item
     
+    def peek(self):
+        
+        if self.is_empty():
+            raise ValueError("Cannot peek an empty queue.")
+        return self._head.data          
     def is_empty(self):
         return self._size == 0
     
@@ -42,4 +47,5 @@ class LinkedQueue:
             items.append(repr(current.data))
             current = current.next
         return "LinkedQueue([" + ", ".join(items) + "])"
+
 
