@@ -35,7 +35,7 @@ def _get_key(record, by):
     elif by == 'id':
         return record.student.student_id
     elif by == 'date':
-        return record.date
+        return record.enroll_date
     else:
         raise ValueError("Invalid sorting key")
    
