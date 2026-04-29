@@ -3,7 +3,7 @@ class HashMap:
     def __init__(self, capacity=10):
         self.capacity = capacity
         self.size = 0
-        self.buckets = [[] for _ in range(capacity)]
+        self.buckets = [[] for _ in range(self.capacity)]
         self.load_factor_threshold = 0.8
  
     def _hash(self, key):
@@ -22,7 +22,7 @@ class HashMap:
         self.size += 1
  
         if self.size / self.capacity >= self.load_factor_threshold:
-            self._rehash()  # was self._resize()
+            self._rehash()
  
     def get(self, key):
         index = self._hash(key)
@@ -42,7 +42,7 @@ class HashMap:
                 del bucket[i]
                 self.size -= 1
                 return True
-        raise KeyError(f"Key {key} not found")  # was return KeyError(...)
+        raise KeyError(f"Key {key} not found")
  
     def __contains__(self, key):
         index = self._hash(key)
