@@ -1,63 +1,32 @@
-# Milestone 3 -- University/Course/Student System with HashMap & Prerequisites
+Milestone 3 -- University/Course/Student System
+CSE 2050 | Spring 2026 | Anushree & Prudhvi
+What We Built
+For Milestone 3 we added prerequisite checking to the enrollment system, swapped out the quadratic sorting algorithms for merge sort and quick sort, and built a HashMap from scratch to store the prerequisite data.
 
-CSE 2050 | Spring 2026 | Group Project
+Who Did What
+Prudhvi
 
-## Overview
+hashmap.py -- HashMap with separate chaining and rehashing at 80% load factor
+sorting.py -- merge sort and quick sort, works for sorting by name, id, or date
+test_milestone3.py -- tests for HashMap and sorting
 
-Milestone 3 extends the Milestone 2 system with:
-- A HashMap (separate chaining + rehashing at 80% load factor) to store prerequisite data
-- Prerequisite verification before student enrollment
-- Merge Sort and Quick Sort to replace quadratic sorting algorithms
-- Full unit test suite and complexity report
+Anushree
 
----
+course.py -- added prerequisite field and updated enrollment to check prerequisites before adding to roster or waitlist
+student.py -- added courses_taken tracking and complete_course() method
+university.py -- added load_prerequisites() to wire in the CSV data
+test_milestone3.py -- tests for prerequisite enrollment logic
+milestone3_report.txt -- complexity analysis
+demo_milestone3.py -- full demo script
 
-## File Responsibilities
 
-### Prudhvi
-| File | Description |
-|---|---|
-| `hashmap.py` | HashMap class -- `put`, `get`, `__contains__`, `_hash`, `_rehash`, separate chaining, load factor check |
-| `sorting.py` | `merge_sort()` and `quick_sort()` -- support sort by name, id, and date; replace insertion/selection sort |
-| `test_milestone3.py` (partial) | Unit tests for HashMap (collision handling, rehashing) and both sorting algorithms |
-
-### Anushree
-| File | Description |
-|---|---|
-| `course.py` | Updated Course class -- adds `prerequisite` HashMap field, loads `cse_prerequisites.csv`, updates `request_enroll()` to check prerequisites before enrolling/waitlisting |
-| `student.py` | Updated Student class -- adds `courses_taken` field and `complete_course()` method for prerequisite tracking |
-| `university.py` | Updated University -- wires prerequisite loading into existing data loading pipeline |
-| `test_milestone3.py` (partial) | Unit tests for enrollment with and without prerequisites met |
-| `milestone3_report.txt` | Big-O complexity report for HashMap put/get and both sorting algorithms, with Merge vs Quick sort comparison |
-| `demo_milestone3.py` | Demo script showing full Milestone 3 workflow including all previous milestone demos |
-
----
-
-## How to Run
-
-### Load data and run demo
-```bash
-cd milestone3
+How to Run
+bashcd milestone3
 python3 demo_milestone3.py
-```
-
-### Run tests
-```bash
-cd milestone3
 python3 -m unittest test_milestone3 -v
-```
 
----
+Data Files
 
-## Data Files (provided, don't need to modify)
-- `cse_prerequisites.csv` -- prerequisite requirements for each CSE course
-- `course_catalog_CSE10_with_capacity.csv` -- carry over from Milestone 2
-- `enrollments_CSE10.csv` -- carry over from Milestone 2
-
----
-
-## Submission Checklist
-- [ ] All Python source files complete
-- [ ] `test_milestone3.py` passing
-- [ ] `milestone3_report.txt` complete
-- [ ] `demo_milestone3.py` working end-to-end
+cse_prerequisites.csv
+course_catalog_CSE10_with_capacity.csv
+enrollments_CSE10.csv
