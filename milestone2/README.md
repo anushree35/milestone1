@@ -1,62 +1,32 @@
-# Milestone 2 -- University/Course/Student System
+Milestone 3 -- University/Course/Student System
+CSE 2050 | Spring 2026 | Anushree & Prudhvi
+What We Built
+For Milestone 3 we added prerequisite checking to the enrollment system, swapped out the quadratic sorting algorithms for merge sort and quick sort, and built a HashMap from scratch to store the prerequisite data.
 
-CSE 2050 | Spring 2026 | Group Project
+Who Did What
+Prudhvi
 
-## Overview
+hashmap.py -- HashMap with separate chaining and rehashing at 80% load factor
+sorting.py -- merge sort and quick sort, works for sorting by name, id, or date
+test_milestone3.py -- tests for HashMap and sorting
 
-Milestone 2 extends the Milestone 1 system with:
-- Enrollment capacity and a linked-list waitlist (FIFO)
-- Sorting the enrolled roster by name, ID, or date
-- Recursive binary search for efficient drop operations
-- Full unit test suite
+Anushree
 
----
+course.py -- added prerequisite field and updated enrollment to check prerequisites before adding to roster or waitlist
+student.py -- added courses_taken tracking and complete_course() method
+university.py -- added load_prerequisites() to wire in the CSV data
+test_milestone3.py -- tests for prerequisite enrollment logic
+milestone3_report.txt -- complexity analysis
+demo_milestone3.py -- full demo script
 
-## File Responsibilities
 
-### Anushree
-| File | Description |
-|---|---|
-| `course.py` | Updated Course class -- capacity, waitlist logic, sort_enrolled(), drop() using binary search |
-| `university.py` | Updated University -- loads CSE10 catalog + enrollments, connects enroll/drop to Course |
-| `test_milestone2.py` | Full unittest suite covering all Milestone 2 features |
-| `milestone2_report.txt` | Big-O complexity report for queue, sorting, and binary search |
+How to Run
+bashcd milestone3
+python3 demo_milestone3.py
+python3 -m unittest test_milestone3 -v
 
-### Prudhvi
-| File | Description |
-|---|---|
-| `linked_queue.py` | Node class + LinkedQueue ADT (enqueue, dequeue, is_empty, __len__) |
-| `enrollment_record.py` | EnrollmentRecord class (student + enroll_date) |
-| `sorting.py` | insertion_sort(), selection_sort(), recursive_binary_search() |
-| `student.py` | Student class (carry over from M1, minimal changes) |
-| `demo_milestone2.py` | Demo script showing full workflow |
+Data Files
 
----
-
-## How to Run
-
-### Load data and run demo
-```bash
-cd milestone2
-python3 demo_milestone2.py
-```
-
-### Run tests
-```bash
-cd milestone2
-python3 -m unittest test_milestone2 -v
-```
-
----
-
-## Data Files (provided, don't need to modify)
-- `course_catalog_CSE10_with_capacity.csv` -- 10 CSE courses with capacity
-- `enrollments_CSE10.csv` -- enrollment records for those courses
-
----
-
-## Submission Checklist
-- [ ] All Python source files complete
-- [ ] `test_milestone2.py` passing (38 tests)
-- [ ] `milestone2_report.txt` complete
-- [ ] `demo_milestone2.py` working end-to-end
+cse_prerequisites.csv
+course_catalog_CSE10_with_capacity.csv
+enrollments_CSE10.csv
