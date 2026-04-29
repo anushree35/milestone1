@@ -1,0 +1,64 @@
+Milestone 3 Complexity Report
+CSE 2050 -- Spring 2026
+==============================
+
+1. HashMap: put and get complexity
+------------------------------------
+Average case: O(1) for both put and get.
+Worst case: O(n) for both.
+
+get: We hash the key to find the bucket index in O(1), then scan the
+bucket's chain for a matching key. With a good hash function and a
+low load factor, each bucket contains very few items, making the
+scan effectively O(1) on average. In the worst case (all keys hash
+to the same bucket), the scan is O(n).
+
+put: Same as get -- O(1) hash to find the bucket, then O(1) average
+scan to check for an existing key. We maintain the load factor below
+0.8 by rehashing when needed, which keeps bucket sizes small and
+preserves the O(1) average behavior. The rehash itself is O(n) but
+is amortized across many insertions, so the amortized cost per put
+remains O(1).
+
+
+2. Sorting algorithm complexities
+------------------------------------
+Merge Sort:
+  - Best / Average / Worst case: O(n log n) in all cases.
+  - The list is recursively split in half (log n levels), and at each
+    level the merge step does O(n) total work.
+  - Space: O(n) -- requires auxiliary arrays during the merge step.
+  - Stable: yes -- equal elements keep their original relative order.
+
+Quick Sort:
+  - Best / Average case: O(n log n) -- the pivot divides the list
+    into roughly equal halves at each level.
+  - Worst case: O(n^2) -- occurs when the pivot is always the smallest
+    or largest element (e.g., already-sorted input with a last-element
+    pivot). This implementation uses the last element as the pivot.
+  - Space: O(log n) average for the recursive call stack; O(n) worst.
+  - Stable: no -- equal elements may be reordered.
+
+
+3. Merge Sort vs. Quick Sort: when to prefer each
+----------------------------------------------------
+Both algorithms are O(n log n) on average, which is a major improvement
+over the O(n^2) insertion sort and selection sort used in Milestone 2.
+
+When to prefer Merge Sort:
+  - When stability matters (preserving relative order of equal elements).
+  - When worst-case guarantee is important -- Merge Sort is always
+    O(n log n) regardless of input order.
+  - For sorting enrollment records by date where ties are common,
+    Merge Sort ensures equal dates remain in their original order.
+
+When to prefer Quick Sort:
+  - When memory is limited -- Quick Sort sorts in-place (O(log n) stack
+    space vs Merge Sort's O(n) auxiliary arrays).
+  - In practice Quick Sort often runs faster than Merge Sort due to
+    better cache locality, even though both are O(n log n) average.
+  - When the input is expected to be random (reduces worst-case risk).
+
+For this project's course rosters (small n, ~40 students), the
+performance difference is negligible. Merge Sort is the safer default
+due to its stability and guaranteed O(n log n) worst case.
